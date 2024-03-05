@@ -9,9 +9,14 @@ import shutil
 import subprocess
 import sys
 
+USAGE_STRING = "\n".join([
+    "Usage: run_autograder.py [submission_dir]", "",
+    "If submission_dir is not provided, submission/ will be used.", "",
+    "If submission_dir is provided, it can be relative to the working",
+    "directory or the submissions/ directory, if present."])
+
 # Configuration file
 CONFIG_FILE_NAME = "config.ini"
-CONFIG_PATH_LOCAL_TEMPLATE = "../%s/" + CONFIG_FILE_NAME
 CONFIG_SUBMISSION_SECTION_NAME = "submission"
 CONFIG_CROSSTESTS_SECTION_NAME = "crosstests"
 CONFIG_SECTIONS = [CONFIG_SUBMISSION_SECTION_NAME, CONFIG_CROSSTESTS_SECTION_NAME]
@@ -102,6 +107,11 @@ def ensure_file_in_package(file_path: str, package: str):
         f"File {file_path} does not contain the expected package declaration: {pkg_stmt}")
 
 
+def get_submission_dir():
+    print("In get_submission_dir, os.getcwd() = " + os.getcwd())
+    return SUBMISSION_SUBDIR
+
+
 def copy_req_files(config):
     """Copy student-provided files into the appropriate server directory.
 
@@ -114,7 +124,7 @@ def copy_req_files(config):
     os.makedirs(dest_path, exist_ok=True)
 
     for file in files:
-        file_path = SUBMISSION_SUBDIR + file
+        file_path = get_submission_dir() + file
         if os.path.exists(file_path):
             if file_path.endswith(".java"):
                 ensure_file_in_package(file_path, package)
@@ -217,7 +227,7 @@ def read_config_file():
 
     # Make sure config file has required section and keys.
     config = configparser.ConfigParser()
-    path = CONFIG_PATH_LOCAL_TEMPLATE % sys.argv[1] if is_local() else CONFIG_FILE_NAME
+    path = CONFIG_FILE_NAME
     if not config.read(path):
         raise Exception(
             f"Unable to read configuration file {path}"
@@ -277,7 +287,7 @@ def get_submission_info(config) -> (str, list[str]):
 
 def main():
     if is_local() and len(sys.argv) != 2:
-        print("Usage: run_autograder.py <projectdir>")
+        print(USAGE_STRING)
         sys.exit(1)
     try:
         config = read_config_file()
