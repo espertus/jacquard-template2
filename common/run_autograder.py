@@ -139,9 +139,18 @@ def repackage(config):
     # Repackage all the test files in all the packages.
     for filename in tests:
         source = os.path.join(WORKING_JAVA_SUBDIR, old_package, filename)
-        # This will match the original package statement unless it contains something
-        # unusual, like a comment in its middle.
-        old_package_pattern = r'^\s*package\s+' + re.escape(old_package) + r'(?!\S).*?;'
+        # This will match the original package statement by checking for:
+        # - the start of line
+        # - any number of spaces
+        # - "package"
+        # - one or more spaces
+        # - the old package name
+        # - optionally, one or more whitespace characters followed by any characters
+        #   (in case there is a comment)
+        # - semicolon
+        # This will not match a package statement where there is a comment between
+        # "package" and the old package name.
+        old_package_pattern = r'^\s*package\s+' + re.escape(old_package) + r'(?:\s+.*?|)\s*;'
         for new_package in packages:
             target = os.path.join(WORKING_JAVA_SUBDIR, new_package, filename)
 
@@ -156,7 +165,7 @@ def repackage(config):
                 # Copy all lines except the package statement, which has been replaced.
                 with open(source, 'r') as source_file:
                     for line in source_file:
-                        if not re.search(line):
+                        if not re.search(old_package_pattern, line):
                             target_file.write(line)
 
 
