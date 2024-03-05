@@ -26,9 +26,13 @@ CONFIG_SUBMISSION_KEYS = [CONFIG_PACKAGE_KEY, CONFIG_FILES_KEY]
 CONFIG_TESTS_KEY = "tests"
 CONFIG_PACKAGES_KEY = "packages"
 
-# All directories are relative. On the server, they are relative to /autograder.
+# Directories
+DIR_SEPARATORS = "\\/"
 AUTOGRADER_DIR = os.sep + "autograder" + os.sep
-SUBMISSION_SUBDIR = "submission" + os.sep
+
+# All subdirectories are relative. On the server, they are relative to /autograder.
+DEFAULT_SUBMISSION_SUBDIR = "submission" + os.sep
+DEFAULT_SUBMISSIONS_SUBDIR = "submissions" + os.sep
 GRADESCOPE_RESULTS_SUBDIR = "results" + os.sep
 GRADESCOPE_RESULTS_PATH = GRADESCOPE_RESULTS_SUBDIR + "results.json"
 SOURCE_SUBDIR = os.path.join("src", "main", "java") + os.sep
@@ -107,9 +111,38 @@ def ensure_file_in_package(file_path: str, package: str):
         f"File {file_path} does not contain the expected package declaration: {pkg_stmt}")
 
 
-def get_submission_dir():
-    print("In get_submission_dir, os.getcwd() = " + os.getcwd())
-    return SUBMISSION_SUBDIR
+def get_submission_subdir():
+    """
+    Identify the directory containing the submission.
+
+    If no command-line argument is provided, DEFAULT_SUBMISSION_SUBDIR is used.
+
+    If a command-line argument is provided, it is first tested alone, then
+    following DEFAULT_SUBMISSIONS_SUBDIR.
+
+    :raise Exception: if the directory cannot be found.
+
+    """
+    dir = DEFAULT_SUBMISSION_SUBDIR
+    if len(sys.argv) < 2 or not sys.argv[1].strip():
+        if os.path.exists(dir) and os.path.isdir(dir):
+            return dir
+        raise Exception(f"Unable to find submission directory {dir}.")
+
+    subdir = sys.argv[1].rstrip(DIR_SEPARATORS)
+    if os.path.exists(subdir):
+        if os.path.isdir(subdir):
+            return subdir + os.sep
+        else:
+            raise Exception(f"Specified submission location '{subdir}' is a file, not a directory.")
+    else:
+        subdir2 = DEFAULT_SUBMISSIONS_SUBDIR + subdir
+        if os.path.exists(subdir2):
+            if os.path.isdir(subdir2):
+                return subdir2 + os.sep
+            else:
+                raise Exception(f"Specified submission location {subdir2} is a file, not a directory.")
+        raise Exception(f"Unable to find submission directory {subdir} or {subdir2}.")
 
 
 def copy_req_files(config):
@@ -124,7 +157,7 @@ def copy_req_files(config):
     os.makedirs(dest_path, exist_ok=True)
 
     for file in files:
-        file_path = get_submission_dir() + file
+        file_path = get_submission_subdir() + file
         if os.path.exists(file_path):
             if file_path.endswith(".java"):
                 ensure_file_in_package(file_path, package)
@@ -286,7 +319,7 @@ def get_submission_info(config) -> (str, list[str]):
 
 
 def main():
-    if is_local() and len(sys.argv) != 2:
+    if is_local() and len(sys.argv) > 3:
         print(USAGE_STRING)
         sys.exit(1)
     try:
