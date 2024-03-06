@@ -14,7 +14,7 @@ import static java.lang.System.exit;
 
 // You need to run this with the ./test_autograder.sh script instead of from
 // within the IDE, unless you remove the use of the CrossTester.
-public class Main {
+public class AutograderMain {
     public static void main(String[] args) throws ClassNotFoundException {
         // Change default configuration.
         //Autograder.init();

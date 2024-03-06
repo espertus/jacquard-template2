@@ -47,7 +47,7 @@ These directories and files have code specific to the assignment:
 
 * `config/checkstyle-rules.xml` holds the checkstyle rules file
 * `src/main/java/student` contains
-    * `Main.java`, which has the `main` method that controls the autograder
+    * `AutograderMain.java`, which has the `main` method that controls the autograder
     * `ILOS.java`, which provides a "list of string" interface
     * `EmptyLOS.java` and `NonEmptyLOS.java`, placeholders for the student
       implementations of the interface
@@ -96,7 +96,7 @@ The main class of the autograder is specified in `build.gradle`:
 
 ```groovy
 ext {
-    javaMainClass = "student.Main"
+    javaMainClass = "student.AutograderMain"
 }
 ```
 
