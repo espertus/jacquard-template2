@@ -7,7 +7,7 @@ COPY config /autograder/config
 COPY gradle /autograder/gradle
 COPY src /autograder/src
 COPY gradlew build.gradle config.ini /autograder
-COPY common/run_autograder.py /autograder/run_autograder
+COPY scripts/run_autograder.py /autograder/run_autograder
 
 # Update packages.
 RUN apt-get update && \
