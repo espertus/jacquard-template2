@@ -1,13 +1,13 @@
-# docker build -t yourname/quiz1-autograder .
+# docker build -t username/gradername .
 
 FROM gradescope/autograder-base:ubuntu-22.04-jdk17
 
 # Copy needed directories and files. Instructors may add to these.
-COPY ../quiz1/config /autograder/config
-COPY ../quiz1/gradle /autograder/gradle
-COPY ../quiz1/src /autograder/src
-COPY ../quiz1/gradlew.bat gradlew build.gradle config.ini /autograder
-COPY run_autograder.py /autograder/run_autograder
+COPY config /autograder/config
+COPY gradle /autograder/gradle
+COPY src /autograder/src
+COPY gradlew build.gradle config.ini /autograder
+COPY common/run_autograder.py /autograder/run_autograder
 
 # Update packages.
 RUN apt-get update && \
@@ -15,8 +15,8 @@ RUN apt-get update && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Ensure that scripts are Unix-friendly and executable.
-RUN dos2unix /autograder/run_autograder
-RUN chmod +x /autograder/run_autograder
+RUN dos2unix /autograder/run_autograder /autograder/gradlew
+RUN chmod +x /autograder/run_autograder /autograder/gradlew
 
 # Force gradle download and start daemon.
 WORKDIR /autograder
