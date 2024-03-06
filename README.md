@@ -1,4 +1,4 @@
-# Jacquard Homework 1 Example
+# Jacquard Template 2
 
 This is an example of a [Jacquard](https://github.com/espertus/jacquard)
 autograder for a homework assignment. It demonstrates the use of:
@@ -12,7 +12,7 @@ autograder for a homework assignment. It demonstrates the use of:
     * correct code
     * buggy code
  
-This is more advanced and less thoroughly documented than [Quiz 1](../quiz1/README.md), which you should
+This is more advanced and less thoroughly documented than [Jacquard Template 1](https://github.com/espertus/jacquard-template1), which you should
 view first.
 
 ## Teacher Instructions
@@ -62,13 +62,17 @@ These directories and files have code specific to the assignment:
   `test_autograder.py` locally)
 * `submissions` (which is not required) holds sample submissions to manually
   test the grader on Gradescope
+    * `perfect`, a subdirectory with a perfect submission
+    * `imperfect`, a subdirectory with an imperfect submission
+    * `starter`, a subdirectory with the starter code
 
-Any of the above files could have different names or packages.
+Any of the above files could have different names or packages. The `submissions/` subdirectories
+could also have different names.
 
 #### config.ini
 
 The submission package and files are specified in the `[submission]` section of
-`config.ini` and should be edited if you change the package name or required
+[`config.ini`](config.ini) and should be edited if you change the package name or required
 files. Currently, package names must have only a single part (e.g., "student",
 not "edu.myschool.student").
 
@@ -84,11 +88,11 @@ packages = [correct, buggy]
 
 The `[crosstests]` sections indicates that the test `ILOSTest.java` in the
 primary (`student`) package should also run on the instructor-provided
-implements in the `correct` and `buggy` packages. For more information, see
+implementations in the `correct` and `buggy` packages. For more information, see
 [What is cross-testing?](https://github.com/espertus/jacquard-examples/blob/main/README.md#what-is-cross-testing).
 
 **The remainder of the Teacher Instructions are the same as
-for [Quiz 1](../quiz1).**
+for [Jacquard Template 1](https://github.com/espertus/jacquard-template1).**
 
 #### build.gradle
 
@@ -109,9 +113,19 @@ dependencies.
 ### Shell scripts
 
 #### test_autograder.sh
+This script, which requires Python 3, lets you test the autograder locally. If called without any
+arguments, it will use the submission in the `submission/` directory.
+```shell
+./test_autograder.sh
+```
 
-This tests the autograder on the file(s) in the `submission` subdirectory.
-It requires a Python 3 interpreter.
+If called with an argument, it will use the submission in that subdirectory,
+prepending `submissions/` if necessary. For example, to test the autograder
+against the files in `submissions/perfect`, you could execute either:
+```shell
+./test_autograder.sh submissions/perfect
+./test_autograder.sh perfect
+```
 
 #### make_autograder.sh
 
