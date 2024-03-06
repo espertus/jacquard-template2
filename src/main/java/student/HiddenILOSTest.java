@@ -11,7 +11,7 @@ public class HiddenILOSTest {
     final EmptyLOS emptyList = new EmptyLOS();
     final ILOS list1 = buildListOfString("A");
     final ILOS list2 = buildListOfString("a", "b");
-    final ILOS list3 = buildListOfString("A", "BB", "CC");
+    final ILOS list3 = buildListOfString("A", "BB", "CCC");
     ILOS list10;
 
     private ILOS buildListOfString(String... strings) {
@@ -70,19 +70,19 @@ public class HiddenILOSTest {
     @Test
     @GradedTest
     public void concatWorksWhenLength1() {
-        assertEquals("one", list1.concat());
+        assertEquals("A", list1.concat());
     }
 
     @Test
     @GradedTest(points = 2.0)
     public void concatWorksWhenLength2() {
-        assertEquals("onetwo", list2.concat());
+        assertEquals("ab", list2.concat());
     }
 
     @Test
     @GradedTest(points = 3.0)
     public void concatWorksWhenLength3() {
-        assertEquals("onetwothree", list3.concat());
+        assertEquals("ABBCCC", list3.concat());
     }
 
     @Test
