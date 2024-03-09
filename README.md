@@ -36,7 +36,7 @@ _not_ a prerequisite.
    * Measuring code coverage (5:14)
    * Testing student code with JUnit (6:30)
 2. [Cross-testing](https://northeastern.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=165ca9fa-98eb-4f0f-8841-b069013430c5) (3:15)
-3. [Testing the autograder locally](https://northeastern.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=2f5efb35-fdc7-4bfa-a531-b09f015d8f06) (0:38)
+3. [Testing the autograder locally](https://northeastern.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=fdc7e6cd-360a-4a17-ba02-b12e006326ed) (0:38)
 
 ## Execution
 
