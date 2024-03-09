@@ -45,7 +45,7 @@ public class AutograderMain {
 
         // Create and run PMD grader on all targets, including tests (10 points).
         // Make the results immediately visible.
-        PmdGrader pmdGrader = PmdGrader.createFromRules(
+        PmdGrader pmdGrader = PmdGrader.createFromRuleSetPaths(
                 1.0,
                 10.0,
                 "category/java/bestpractices.xml");
