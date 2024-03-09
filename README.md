@@ -1,47 +1,66 @@
-# Jacquard Template 2
+# Jacquard Example 2
 
-This is an example of a [Jacquard](https://github.com/espertus/jacquard)
-autograder for a homework assignment. It demonstrates the use of:
+[Jacquard](https://github.com/espertus/jacquard) [[Javadoc](https://jacquard.ellenspertus.com)]
+is a Java autograder library for Gradescope. This repository provides an example
+of a Jacquard-based autograder that was used
+for a homework assignment in a Java data structures course.
+It demonstrates the use of:
 
-* Checkstyle
-* PMD
-* Unit tests
-* Code coverage
+* Configuring the autograder, including options for specifying test visibility
+* Running Checkstyle and PMD on multiple targets
+* Measuring code coverage
+* Running unit tests on student code
 * Cross-testing, i.e., running student tests against
     * student code
     * correct code
     * buggy code
- 
-This is more advanced and less thoroughly documented than [Jacquard Template 1](https://github.com/espertus/jacquard-template1), which you should
-view first.
 
-## Teacher Instructions
+## Prerequisites
 
-We recommend walking through the [Quiz 1 example](../quiz1/README.md) and the top-level
-videos before trying out this example.
+The rest of this document assumes that you have read:
 
-### Execution
+* [Jacquard Example 0](https://github.com/jacquard-autograder/jacquard-example0),
+  a more detailed introduction to the basic features
+* [The student instructions](StudentInstructions.md) for this assignment
 
-Unlike Quiz 1, this must be run from the command line. It will not run within the IDE unless you remove the lines that use the `CrossTester`:
+[Jacquard Example 1](https://github.com/jacquard-autograder/jacquard-example1) is
+_not_ a prerequisite.
+
+## Video Explanation
+
+1. [A look at `AutograderMain`](https://northeastern.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=6b00de8f-4abe-49a6-a348-b12e0012f37b) (8:20), with chapters on:
+   * Configuring the autograder (0:11)
+   * Setting multiple targets (2:06)
+   * Running Checkstyle on multiple targets (2:41)
+   * Running PMD on multiple targets (4:16)
+   * Measuring code coverage (5:14)
+   * Testing student code with JUnit (6:30)
+2. [Cross-testing](https://northeastern.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=165ca9fa-98eb-4f0f-8841-b069013430c5) (3:15)
+3. [Testing the autograder locally](https://northeastern.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=2f5efb35-fdc7-4bfa-a531-b09f015d8f06) (0:38)
+
+## Execution
+
+Unlike the previous examples, this autograder must be run from the command line.
+It will not run within the IDE unless you remove 
+or comment out the lines that use the `CrossTester`:
 ```
 CrossTester crossTester = new CrossTester(
     student.ILOSTest.class,
     "student-tests.csv");
 results.addAll(crossTester.run());
 ```
-The way to run it from the command line is with:
+The command to run it on code in the `submission` directory is:
 ```
 ./test_autograder.sh
 ```
 
-### Videos
+The command to run it on code in the `submissions/imperfect` directory (for example) is:
+```
+./test_autograder.sh imperfect
+```
 
-1. [Opening Homework 1](https://northeastern.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=b6ecb9d2-9a9b-4485-b394-b06a01300872) [0:21]
-2. [Taking a first look at Homework 1](https://northeastern.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=ba36573d-dd4a-493d-8b3d-b06a0181c9ff) [8:07]
-3. [Cross-testing in Homework 1](https://northeastern.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=165ca9fa-98eb-4f0f-8841-b069013430c5) [3:15]
-4. [Running Homework 1 autograder locally](https://northeastern.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=2f5efb35-fdc7-4bfa-a531-b09f015d8f06) [0:38]
 
-### Files
+## Files
 
 These directories and files have code specific to the assignment:
 
@@ -61,7 +80,7 @@ These directories and files have code specific to the assignment:
 * `submission` holds a sample submission (required if you want to run
   `test_autograder.py` locally)
 * `submissions` (which is not required) holds sample submissions to manually
-  test the grader on Gradescope
+  test the grader locally or on Gradescope
     * `perfect`, a subdirectory with a perfect submission
     * `imperfect`, a subdirectory with an imperfect submission
     * `starter`, a subdirectory with the starter code
@@ -69,7 +88,7 @@ These directories and files have code specific to the assignment:
 Any of the above files could have different names or packages. The `submissions/` subdirectories
 could also have different names.
 
-#### config.ini
+### config.ini
 
 The submission package and files are specified in the `[submission]` section of
 [`config.ini`](config.ini) and should be edited if you change the package name or required
@@ -153,57 +172,3 @@ To configure the autograder on Gradescope:
 ![screenshot showing Zip file upload of autograder.zip with Ubuntu 22.04 and
 JDK 17 selected](../images/configure-autograder.png)
 
-## Student Instructions
-
-You are provided with an interface `IListOfString` and need to complete and
-test the concrete classes `EmptyListOfString` and `NonEmptyListOfString`.
-
-Specifically, you need to implement and test the methods:
-
-* `int size()`
-* `String concat()`
-  The methods are described in the javadoc.
-
-### Tests
-
-You are encouraged to practice test-driven development (TDD) and write
-your tests before implementing the methods under test. To earn credit,
-your tests must:
-
-* be in `ILOSTest.java`
-* have the `@Test` annotation
-* have the `public` visibility modifier
-* start with the name of the method under test (such
-  as `sizeWorksForLength0`)
-  Use the existing tests as a model.
-
-You should modify and submit these files:
-
-* `ILOSTest.java`
-* `EmptyLOS.java`
-* `NonEmptyLOS.java`
-
-All of your tests must be annotated with `@Test` and have names that start
-with the name of the method being tested, with the exact same capitalization.**
-Use the provided test as a model for names.
-
-### Grading
-
-Grading will be based on:
-
-* checkstyle with configuration
-  file [config/checkstyle-rules.xml](config/checkstyle-rules.xml) [10 points]
-* PMD
-  with [java/best_practices.xml](https://docs.pmd-code.org/latest/pmd_rules_java_bestpractices.html) [10 points]
-* Unit testing
-    * Your implementation passes your tests [20 points]
-    * Our hidden correct implementation passes your tests [15 points]
-    * Our hidden buggy implementations fail your tests [15 points]
-    * Your implementation passes our hidden tests [20 points]
-* Code coverage [10 points]
-    * `EmptyLOS` [2 points]
-    * `NonEmptyLOS` [8 points]
-
-Your code coverage score will be proportional to your line coverage.
-For example, if you achieve 85% line coverage for both classes, you will earn
-8.5 out of 10 points.
