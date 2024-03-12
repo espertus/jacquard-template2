@@ -107,11 +107,16 @@ packages = [correct, buggy]
 
 The `[crosstests]` sections indicates that the test `ILOSTest.java` in the
 primary (`student`) package should also run on the instructor-provided
-implementations in the `correct` and `buggy` packages. For more information, see
-[What is cross-testing?](https://github.com/espertus/jacquard-examples/blob/main/README.md#what-is-cross-testing).
+implementations in the `correct` and `buggy` packages. 
+
+Note that `student` does not appear in the list of crosstest packages. Only packages
+different from the submission package need to be listed.
+
+For more information, see
+[What is cross-testing?](https://github.com/jacquard-autograder/jacquard/blob/main/doc/FAQ.md#what-is-cross-testing).
 
 **The remainder of the Teacher Instructions are the same as
-for [Jacquard Template 1](https://github.com/espertus/jacquard-template1).**
+for [Jacquard Example 1](https://github.com/jacquard-autograder/jacquard-example1).**
 
 #### build.gradle
 
