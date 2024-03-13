@@ -195,8 +195,10 @@ def repackage(config):
         # "package" and the old package name.
         old_package_pattern = r'^\s*package\s+' + re.escape(old_package) + r'(?:\s+.*?|)\s*;'
         for new_package in packages:
-            target = os.path.join(WORKING_JAVA_SUBDIR, new_package, filename)
+            if new_package == old_package:
+                continue
 
+            target = os.path.join(WORKING_JAVA_SUBDIR, new_package, filename)
             with open(target, 'w') as target_file:
                 # Add a new package statement to replace the one we will remove.
                 target_file.write(f"package {new_package};\n\n")
@@ -222,7 +224,7 @@ def run():
     os.chdir(WORKING_SUBDIR)
     gradle_cmd = GRADLEW_WINDOWS_CMD if is_windows() else GRADLEW_UNIX_CMD
     result = subprocess.run(
-        [gradle_cmd, "clean", "run", "--quiet"],
+        [gradle_cmd, "run", "--quiet"],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
