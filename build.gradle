@@ -8,14 +8,14 @@ repositories {
     mavenCentral()
 }
 
-apply plugin : "java"
+apply plugin: "java"
 
 application {
     mainClass.set("student.AutograderMain")
 }
 
 dependencies {
-    implementation 'com.spertus:jacquard:1.0.0'
+    implementation 'com.spertus:jacquard:1.0.1'
     implementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
 }
 
