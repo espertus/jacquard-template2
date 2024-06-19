@@ -123,8 +123,8 @@ for [Jacquard Example 1](https://github.com/jacquard-autograder/jacquard-example
 The main class of the autograder is specified in `build.gradle`:
 
 ```groovy
-ext {
-    javaMainClass = "student.AutograderMain"
+application {
+    mainClass.set("student.AutograderMain")
 }
 ```
 
